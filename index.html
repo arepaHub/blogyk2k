@@ -11,6 +11,15 @@
 
 <body>
 
+    <!-- PANTALLA DE CARGA PS1 -->
+    <div id="loading-screen">
+        <div id="sony-logo-tm">
+            <h1>Sony</h1>
+            <div id="diamond"></div>
+            <h2>Computer <span>Entertainment</span></h2>
+        </div>
+    </div>
+
     <div class="layout">
 
         <aside class="sidebar">
@@ -20,35 +29,6 @@
                     <img class="avatar__img" src="assets/perfil.png" alt="perfil">
                 </div>
             </div>
-
-            <style>
-                .avatar__frame {
-                    position: relative;
-                    display: inline-block;
-                    border-radius: 0 !important;
-                }
-                .avatar__img {
-                    display: block;
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    border-radius: 0 !important;
-                }
-                .avatar__marco {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    pointer-events: none;
-                    border-radius: 0 !important;
-                }
-                .sidebar__avatar,
-                .sidebar__avatar img {
-                    border-radius: 0 !important;
-                }
-            </style>
 
             <div class="sidebar__info">
                 <div class="sidebar__memcard">MEM CARD · SLOT 1 ■</div>
@@ -89,11 +69,23 @@
                     <div class="corner corner--bl"></div>
                     <div class="corner corner--br"></div>
 
+                    <div class="stars-row">
+                        <img class="star-gif" src="assets/star1.gif" alt="">
+                        <img class="star-gif" src="assets/star2.gif" alt="">
+                        <img class="star-gif" src="assets/star1.gif" alt="">
+                        <img class="star-gif" src="assets/star2.gif" alt="">
+                        <img class="star-gif" src="assets/star1.gif" alt="">
+                    </div>
+
                     <div class="welcome__tag">// SYSTEM BOOT — MEMORY CARD OK</div>
                     <span class="welcome__title" data-text="Bienvenidos a mi Blog">Bienvenidos a mi Blog</span>
                     <img class="crash" src="assets/crash.gif" alt="crash">
                     <span class="welcome__subtitle">// est. 2025 · frontend · venezuela</span>
                     <div class="welcome__tag welcome__tag--bottom">▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓</div>
+                </div>
+
+                <div class="divider-gif">
+                    <img src="assets/separador.gif" alt="">
                 </div>
 
                 <hr class="divider">
@@ -112,6 +104,16 @@
         </main>
 
     </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const screen = document.getElementById('loading-screen');
+                screen.classList.add('hide');
+                setTimeout(() => screen.remove(), 600);
+            }, 4200);
+        });
+    </script>
 
 </body>
 

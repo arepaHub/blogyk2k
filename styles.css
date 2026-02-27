@@ -21,7 +21,6 @@
     --text-bright:    #ede0cc;
     --text-gothic:    #e8ddd0;
 
-    /* sin glow — solo sombra de texto sólida */
     --shadow-text:    1px 1px 0px #000000;
 
     --font-gothic:    'UnifrakturMaguntia', cursive;
@@ -47,11 +46,8 @@ html {
 
 body {
     background-color: var(--bg-main);
-
-    /* textura de ruido fuerte — más granulado, menos suave */
     background-image:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
-
     color: var(--text-primary);
     font-family: var(--font-body);
     font-size: 14px;
@@ -70,6 +66,117 @@ a {
 a:hover {
     color: var(--text-bright);
     text-decoration: none;
+}
+
+/* =====================
+   LOADING SCREEN PS1
+   ===================== */
+
+#loading-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 99999;
+    background: black;
+    animation: bg-fade 1s forwards;
+}
+
+#sony-logo-tm {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    text-transform: uppercase;
+    color: #1552A6;
+}
+
+#sony-logo-tm h1,
+#sony-logo-tm h2 {
+    display: inline-block;
+    opacity: 0;
+    animation: fade-in 1s 3s forwards;
+}
+
+#sony-logo-tm h1 {
+    font-family: Georgia;
+    font-size: 41px;
+    transform: scale(1.5, 1);
+    margin: 0 0 35px 0;
+}
+
+#sony-logo-tm h2 {
+    font-family: Arial;
+    font-weight: normal;
+    font-size: 28px;
+    transform: scale(1.2, 1);
+    margin: 40px 0 0 0;
+}
+
+#sony-logo-tm h2 span {
+    font-size: 19px;
+    display: block;
+    line-height: 5px;
+}
+
+#diamond {
+    margin: 0 auto;
+    width: 170px;
+    height: 170px;
+    background-image: linear-gradient(45deg, #F84508, #FADC05, #F84508);
+    transform: rotate(45deg);
+    position: relative;
+    opacity: 0;
+    animation: fade-in 1s 1s forwards;
+}
+
+#diamond:before,
+#diamond:after {
+    content: '';
+    position: absolute;
+}
+
+#diamond:before {
+    background-image: linear-gradient(45deg, #F1232D 10%, rgba(243,226,55,0) 52%);
+    animation: diamond-before-after-animation 1s 2s forwards, diamond-before-animation 1s 2s forwards, fade-in 1s 2s forwards;
+}
+
+#diamond:after {
+    background-image: linear-gradient(45deg, rgba(243,226,55,0) 48%, #F1232D 90%);
+    animation: diamond-before-after-animation 1s 2s forwards, diamond-after-animation 1s 2s forwards, fade-in 1s 2s forwards;
+}
+
+#loading-screen.hide {
+    animation: screen-out 0.6s forwards;
+}
+
+@keyframes screen-out {
+    from { opacity: 1; }
+    to   { opacity: 0; pointer-events: none; }
+}
+
+@keyframes bg-fade {
+    from { background: black; }
+    to   { background: white; }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes diamond-before-after-animation {
+    0%   { width: 100%; height: 100%; }
+    100% { width: 42.3%; height: 42.3%; }
+}
+
+@keyframes diamond-before-animation {
+    0%   { left: 0; top: 0; }
+    100% { left: 13%; top: 8%; }
+}
+
+@keyframes diamond-after-animation {
+    0%   { right: 0; bottom: 0; }
+    100% { right: 13%; bottom: 8%; }
 }
 
 /* =====================
@@ -105,7 +212,6 @@ a:hover {
     max-height: 100vh;
 }
 
-/* cada sección del sidebar tiene su propio borde inferior */
 .sidebar > * {
     padding: 16px 18px;
     border-bottom: 1px solid var(--border-primary);
@@ -120,14 +226,19 @@ a:hover {
     padding: 20px 18px;
 }
 
-.sidebar__avatar img {
+.avatar__frame {
+    position: relative;
+    display: inline-block;
+    border-radius: 0 !important;
+}
+
+.avatar__img {
+    display: block;
     width: 160px;
     height: 160px;
-    border-radius: 50%;
     object-fit: cover;
-    display: block;
+    border-radius: 0 !important;
     filter: grayscale(0.3) contrast(1.1) sepia(0.15);
-    image-rendering: auto;
 }
 
 .sidebar__memcard {
@@ -172,34 +283,6 @@ a:hover {
     color: var(--text-primary);
     line-height: 1.6;
     background: var(--bg-sidebar);
-}
-
-/* Edit button */
-.sidebar__btn {
-    background: #000;
-    border: 1px solid var(--border-hard);
-    border-bottom: 3px solid var(--border-hard); /* efecto de botón duro Y2K */
-    color: var(--text-primary);
-    font-family: var(--font-mono);
-    font-size: 1.1rem;
-    letter-spacing: 2px;
-    padding: 7px 14px;
-    cursor: pointer;
-    width: 100%;
-    text-transform: uppercase;
-    text-align: center;
-    transition: background 0.1s, border-bottom-width 0.1s, transform 0.1s;
-    display: block;
-}
-
-.sidebar__btn:hover {
-    background: var(--border-accent);
-    color: #000;
-}
-
-.sidebar__btn:active {
-    border-bottom-width: 1px;
-    transform: translateY(2px);
 }
 
 /* Stats */
@@ -279,28 +362,14 @@ a:hover {
     letter-spacing: 1px;
 }
 
-.content__edit-btn {
-    background: #000;
-    border: 1px solid var(--border-hard);
-    color: var(--text-muted);
-    padding: 3px 10px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-family: var(--font-mono);
-    transition: border-color 0.15s, color 0.15s;
-}
-
-.content__edit-btn:hover {
-    border-color: var(--border-accent);
-    color: var(--text-accent);
-}
-
 .content__body {
     padding: 28px 32px;
     flex: 1;
 }
 
-
+/* =====================
+   WELCOME BLOCK
+   ===================== */
 
 .welcome {
     position: relative;
@@ -339,7 +408,7 @@ a:hover {
     position: relative;
 }
 
-/* efecto glitch en hover */
+/* Glitch en hover */
 .welcome__title::before,
 .welcome__title::after {
     content: attr(data-text);
@@ -404,6 +473,64 @@ a:hover {
 .corner--bl { bottom: 0; left: 0; border-width: 0 0 2px 2px; }
 .corner--br { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
 
+/* Crash gif */
+.crash {
+    display: block;
+    position: relative;
+    mix-blend-mode: lighten;
+    margin-top: 8px;
+    height: 160px;
+    width: auto;
+}
+
+/* Estrellas decorativas */
+.stars-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.star-gif {
+    width: 20px;
+    height: 20px;
+    mix-blend-mode: lighten;
+    opacity: 0.85;
+}
+
+/* Separador animado */
+.divider-gif {
+    text-align: center;
+    margin: 16px 0;
+}
+
+.divider-gif img {
+    max-width: 100%;
+    height: 20px;
+    opacity: 0.7;
+}
+
+/* Divider */
+.divider {
+    border: none;
+    border-top: 1px solid var(--border-primary);
+    margin: 20px 0;
+    position: relative;
+    text-align: center;
+}
+
+.divider::after {
+    content: '✦';
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-content);
+    padding: 0 8px;
+    color: var(--text-accent);
+    font-size: 10px;
+}
+
 /* Barra de estado PS1 */
 .ps1-status {
     display: flex;
@@ -433,7 +560,7 @@ a:hover {
     50%       { opacity: 0; }
 }
 
-/* Scanlines sobre el contenido */
+/* Scanlines */
 .scanlines {
     pointer-events: none;
     position: fixed;
@@ -449,28 +576,10 @@ a:hover {
     z-index: 9999;
 }
 
-/* Divider duro — sin ornamentos flotantes */
-.divider {
-    border: none;
-    border-top: 1px solid var(--border-primary);
-    margin: 20px 0;
-    position: relative;
-    text-align: center;
-}
+/* =====================
+   POST CARDS
+   ===================== */
 
-.divider::after {
-    content: '✦';
-    position: absolute;
-    top: -9px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--bg-content);
-    padding: 0 8px;
-    color: var(--text-accent);
-    font-size: 10px;
-}
-
-/* Post cards */
 .post-card {
     border: 1px solid var(--border-primary);
     border-left: 3px solid var(--border-accent);
@@ -500,7 +609,10 @@ a:hover {
     color: var(--text-muted);
 }
 
-/* Tipografía del blog */
+/* =====================
+   TIPOGRAFÍA DEL BLOG
+   ===================== */
+
 .content__body h1 {
     font-family: var(--font-gothic);
     font-size: 2.2rem;
@@ -570,7 +682,7 @@ a:hover {
         border-bottom: 2px solid var(--border-hard);
     }
 
-    .sidebar__avatar img {
+    .avatar__img {
         width: 110px;
         height: 110px;
     }
@@ -582,11 +694,4 @@ a:hover {
     .welcome__title {
         font-size: 2rem;
     }
-}
-
-.crash {
-    position: absolute;  
-    top: 200px;          
-    left: 900px;         
-    mix-blend-mode: lighten;
 }
